@@ -1,0 +1,8 @@
+Give examples of algorithms with following time complexities:
+a. O(1)      = Adding an element in front of LL
+b. O(N)      = Finding an element in unsorted array
+c. O(log N)  = Finding an element in sorted array
+d. O(N logN) = Merge Sort
+e. O(MN)     = Multiplication of array
+f. O(N^2)    = Shortest path between 2 nodes in graph
+g. O(N^3)    = Matrix Multiplication 
