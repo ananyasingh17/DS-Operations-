@@ -4,7 +4,8 @@ Practice Set 3
 1. Explain the usage of interfaces / abstract classes.
 
 An abstract class allows you to create functionality that subclasses can implement or override. An interface only allows you to define functionality, not implement it. And whereas a class can extend only one abstract class, it can take advantage of multiple interfaces.
-
+
+
 2. Which features were added to interfaces in Java 8 and Java 9? Why? (like default methods,
 private static methods)
 
@@ -136,7 +137,7 @@ Private method can be used only inside interface and other static and non-static
 Private non-static methods cannot be used inside private static methods.
 We should use private modifier to define these methods and no lesser accessibility than private modifier.
  
-So, from above it can be conlcuded that java 9 private interface methods can be static or instance. In both cases, the private method is not inherited by sub-interfaces or implementations. They are mainly there to improve code re-usability within interface only ñ thus improving encapsulation.
+So, from above it can be conlcuded that java 9 private interface methods can be static or instance. In both cases, the private method is not inherited by sub-interfaces or implementations. They are mainly there to improve code re-usability within interface only ‚Äì thus improving encapsulation.
 
 
 
@@ -144,14 +145,14 @@ So, from above it can be conlcuded that java 9 private interface methods can be 
 
 3. What is an immutable class? Explain the steps involved in creating an immutable class.
 
-An object is immutable if its state cannot change after construction. Immutable objects donít expose any way for other objects to modify their state; the objectís fields are initialized only once inside the constructor and never change again.
+An object is immutable if its state cannot change after construction. Immutable objects don‚Äôt expose any way for other objects to modify their state; the object‚Äôs fields are initialized only once inside the constructor and never change again.
 
 In order to create an immutable class, you should follow the below steps:
 
 Make your class final, so that no other classes can extend it.
 
-Make all your fields final, so that theyíre initialized only once inside the constructor and never modified afterward.
-Donít expose setter methods.
+Make all your fields final, so that they‚Äôre initialized only once inside the constructor and never modified afterward.
+Don‚Äôt expose setter methods.
 When exposing methods which modify the state of the class, you must always return a new instance of the class.
 If the class holds a mutable object:
 Inside the constructor, make sure to use a clone copy of the passed argument and never set your mutable field to the real instance passed through constructor, this is to prevent the clients who pass the object from modifying it afterwards.
@@ -176,7 +177,7 @@ public interface Serializable
 Examples of Marker Interface which are used in real-time applications :
 
 Cloneable interface : Cloneable interface is present in java.lang package. There is a method clone() in Object class. A class that implements the Cloneable interface indicates that it is legal for clone() method to make a field-for-field copy of instances of that class.
-Invoking Objectís clone method on an instance of the class that does not implement the Cloneable interface results in an exception CloneNotSupportedException being thrown. By convention, classes that implement this interface should override Object.clone() method.
+Invoking Object‚Äôs clone method on an instance of the class that does not implement the Cloneable interface results in an exception CloneNotSupportedException being thrown. By convention, classes that implement this interface should override Object.clone() method.
 Refer here for more details.
 
 
@@ -290,17 +291,75 @@ Externalizable is not marker interface, you have to override writeExternal and r
 
 SERIALIZABLE	    
 Serializable is a marker interface i.e. does not contain any method.
-Serializable interface pass the responsibility of serialization to JVM and itís default algorithm.
+Serializable interface pass the responsibility of serialization to JVM and it‚Äôs default algorithm.
 Default serialization does not call any class constructor.
 
 EXTERNALIZABLE   
-Externalizable interface contains two methods writeExternal() and readExternal() which implementing classes MUST override.                                              Externalizable provides control of serialization logic to programmer ñ to write custom logic.
+Externalizable interface contains two methods writeExternal() and readExternal() which implementing classes MUST override.                                              Externalizable provides control of serialization logic to programmer ‚Äì to write custom logic.
 A public no-arg constructor is required while using Externalizable interface.                                            
 
 8. What is the difference between checked and unchecked exception? Give examples for each
 from the JDK.
+
+In Java, there are two types of exceptions:
+
+1) Checked: are the exceptions that are checked at compile time. If some code within a method throws a checked exception, then the method must either handle the exception or it must specify the exception using throws keyword.
+
+For example, consider the following Java program that opens file at location ‚ÄúC:\test\a.txt‚Äù and prints the first three lines of it. The program doesn‚Äôt compile, because the function main() uses FileReader() and FileReader() throws a checked exception FileNotFoundException. It also uses readLine() and close() methods, and these methods also throw checked exception IOException.
+
+import java.io.*; 
+
+class Main { 
+	public static void main(String[] args) { 
+		FileReader file = new FileReader("C:\\test\\a.txt"); 
+		BufferedReader fileInput = new BufferedReader(file); 
+		
+		// Print first 3 lines of file "C:\test\a.txt" 
+		for (int counter = 0; counter < 3; counter++) 
+			System.out.println(fileInput.readLine()); 
+		
+		fileInput.close(); 
+	} 
+} 
+
+2) Unchecked are the exceptions that are not checked at compiled time. In C++, all exceptions are unchecked, so it is not forced by the compiler to either handle or specify the exception. It is up to the programmers to be civilized, and specify or catch the exceptions.
+In Java exceptions under Error and RuntimeException classes are unchecked exceptions, everything else under throwable is checked.
+
+class Main { 
+public static void main(String args[]) { 
+	int x = 0; 
+	int y = 10; 
+	int z = y/x; 
+} 
+} 
+
 9. Give examples for custom exceptions which are checked and unchecked exception.
+class InvalidAgeException extends Exception{  
+ InvalidAgeException(String s){  
+  super(s);  
+ }  
+}  
+
+class TestCustomException1{  
+  
+   static void validate(int age)throws InvalidAgeException{  
+     if(age<18)  
+      throw new InvalidAgeException("not valid");  
+     else  
+      System.out.println("welcome to vote");  
+   }  
+     
+   public static void main(String args[]){  
+      try{  
+      validate(13);  
+      }catch(Exception m){System.out.println("Exception occured: "+m);}  
+  
+      System.out.println("rest of the code...");  
+  }  
+}  
+
 10. What is the difference between Exception and Error? Give examples of Errors.
+
 11. What is the difference between ClassNotFoundException and NoClassDefFoundError?
 12. Explain how class loader works in Java. Can one class be loaded by two class loaders in
 Java.
