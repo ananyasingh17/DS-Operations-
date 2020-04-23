@@ -1,0 +1,316 @@
+Practice Set 3
+
+
+1. Explain the usage of interfaces / abstract classes.
+
+An abstract class allows you to create functionality that subclasses can implement or override. An interface only allows you to define functionality, not implement it. And whereas a class can extend only one abstract class, it can take advantage of multiple interfaces.
+
+2. Which features were added to interfaces in Java 8 and Java 9? Why? (like default methods,
+private static methods)
+
+Some new features to interface were introduced in Java 8 i.e. Default methods and Static methods feature. In Java 8, an interface can have only four types:
+
+Constant variables
+Abstract methods
+Default methods
+Static methods
+Example
+
+
+public interface TempI { 
+  
+    public abstract void div(int a, int b); 
+  
+public default void
+    add(int a, int b) 
+    { 
+        System.out.print("Answer by Default method = "); 
+        System.out.println(a + b); 
+    } 
+  
+    public static void mul(int a, int b) 
+    { 
+        System.out.print("Answer by Static method = "); 
+        System.out.println(a * b); 
+    } 
+} 
+  
+class Temp implements TempI { 
+  
+    @Override
+    public void div(int a, int b) 
+    { 
+        System.out.print("Answer by Abstract method = "); 
+        System.out.println(a / b); 
+    } 
+  
+    public static void main(String[] args) 
+    { 
+        TempI in = new Temp(); 
+        in.div(8, 2); 
+        in.add(3, 1); 
+        TempI.mul(4, 1); 
+    } 
+} 
+OUTPUT : Answer by Abstract method = 4
+         Answer by Default method = 4
+         Answer by Static method = 4
+Java 9 Interface Changes
+
+Java 9 introduced private methods and private static method in interfaces. In Java 9 and later versions, an interface can have six different things:
+
+Constant variables
+Abstract methods
+Default methods
+Static methods
+Private methods
+Private Static methods
+These private methods will improve code re-usability inside interfaces and will provide choice to expose only our intended methods implementations to users.These methods are only accessible within that interface only and cannot be accessed or inherited from an interface to another interface or class.
+
+
+
+public interface TempI { 
+  
+    public abstract void mul(int a, int b); 
+  
+public default void
+    add(int a, int b) 
+    { 
+// private method inside default method 
+        sub(a, b);  
+  
+ // static method inside other non-static method 
+        div(a, b); 
+        System.out.print("Answer by Default method = "); 
+        System.out.println(a + b); 
+    } 
+  
+    public static void mod(int a, int b) 
+    { 
+        div(a, b); // static method inside other static method 
+        System.out.print("Answer by Static method = "); 
+        System.out.println(a % b); 
+    } 
+  
+    private void sub(int a, int b) 
+    { 
+        System.out.print("Answer by Private method = "); 
+        System.out.println(a - b); 
+    } 
+  
+    private static void div(int a, int b) 
+    { 
+        System.out.print("Answer by Private static method = "); 
+        System.out.println(a / b); 
+    } 
+} 
+  
+class Temp implements TempI { 
+  
+    @Override
+    public void mul(int a, int b) 
+    { 
+        System.out.print("Answer by Abstract method = "); 
+        System.out.println(a * b); 
+    } 
+  
+    public static void main(String[] args) 
+    { 
+        TempI in = new Temp(); 
+        in.mul(2, 3); 
+        in.add(6, 2); 
+        TempI.mod(5, 3); 
+    } 
+} 
+OUTPUT : Answer by Abstract method = 6              // mul(2, 3) = 2*3 = 6
+         Answer by Private method = 4               // sub(6, 2) = 6-2 = 4 
+         Answer by Private static method = 3        // div(6, 2) = 6/2 = 3
+         Answer by Default method = 8               // add(6, 2) = 6+2 = 8
+         Answer by Private static method = 1        // div(5, 3) = 5/3 = 1 
+         Answer by Static method = 2                // mod(5, 3) = 5%3 = 2
+ 
+Rules For using Private Methods in Interfaces
+
+Private interface method cannot be abstract and no private and abstract modifiers together.
+Private method can be used only inside interface and other static and non-static interface methods.
+Private non-static methods cannot be used inside private static methods.
+We should use private modifier to define these methods and no lesser accessibility than private modifier.
+ 
+So, from above it can be conlcuded that java 9 private interface methods can be static or instance. In both cases, the private method is not inherited by sub-interfaces or implementations. They are mainly there to improve code re-usability within interface only – thus improving encapsulation.
+
+
+
+
+
+3. What is an immutable class? Explain the steps involved in creating an immutable class.
+
+An object is immutable if its state cannot change after construction. Immutable objects don’t expose any way for other objects to modify their state; the object’s fields are initialized only once inside the constructor and never change again.
+
+In order to create an immutable class, you should follow the below steps:
+
+Make your class final, so that no other classes can extend it.
+
+Make all your fields final, so that they’re initialized only once inside the constructor and never modified afterward.
+Don’t expose setter methods.
+When exposing methods which modify the state of the class, you must always return a new instance of the class.
+If the class holds a mutable object:
+Inside the constructor, make sure to use a clone copy of the passed argument and never set your mutable field to the real instance passed through constructor, this is to prevent the clients who pass the object from modifying it afterwards.
+Make sure to always return a clone copy of the field and never return the real object instance.
+
+
+4. Is it necessary that all properties of immutable class be final?
+
+No,Class and members should be final.it is not mandatory to have all properties final to create an immutable object. In immutable objects you should not allow users to modify the variables of the class. You can do this just by making variables private and not providing setter methods to modify them
+
+5. Why is String class in Java immutable?
+The string is Immutable in Java because String objects are cached in String pool. ... Another reason of why String class is immutable could die due to HashMap. Since Strings are very popular as HashMap key, it's important for them to be immutable so that they can retrieve the value object which was stored in HashMap.
+
+6. Explain the marker interfaces in Java with example. Explain Serializable and Cloneable.
+
+It is an empty interface (no field or methods). Examples of marker interface are Serializable, Clonnable and Remote interface. All these interfaces are empty interfaces.
+
+public interface Serializable 
+{
+  // nothing here
+}
+Examples of Marker Interface which are used in real-time applications :
+
+Cloneable interface : Cloneable interface is present in java.lang package. There is a method clone() in Object class. A class that implements the Cloneable interface indicates that it is legal for clone() method to make a field-for-field copy of instances of that class.
+Invoking Object’s clone method on an instance of the class that does not implement the Cloneable interface results in an exception CloneNotSupportedException being thrown. By convention, classes that implement this interface should override Object.clone() method.
+Refer here for more details.
+
+
+// Java program to illustrate Cloneable interface 
+import java.lang.Cloneable; 
+  
+// By implementing Cloneable interface 
+// we make sure that instances of class A 
+// can be cloned. 
+class A implements Cloneable 
+{ 
+    int i; 
+    String s; 
+  
+    // A class constructor 
+    public A(int i,String s) 
+    { 
+        this.i = i; 
+        this.s = s; 
+    } 
+  
+    // Overriding clone() method 
+    // by simply calling Object class 
+    // clone() method. 
+    @Override
+    protected Object clone() 
+    throws CloneNotSupportedException 
+    { 
+        return super.clone(); 
+    } 
+} 
+  
+public class Test 
+{ 
+    public static void main(String[] args) 
+        throws CloneNotSupportedException 
+    { 
+        A a = new A(20, "GeeksForGeeks"); 
+  
+        // cloning 'a' and holding 
+        // new cloned object reference in b 
+  
+        // down-casting as clone() return type is Object 
+        A b = (A)a.clone(); 
+  
+        System.out.println(b.i); 
+        System.out.println(b.s); 
+    } 
+} 
+Output:
+
+20
+GeeksForGeeks
+Serializable interface : Serializable interface is present in java.io package. It is used to make an object eligible for saving its state into a file. This is called Serialization.
+Classes that do not implement this interface will not have any of their state serialized or deserialized. All subtypes of a serializable class are themselves serializable.
+
+// Java program to illustrate Serializable interface 
+import java.io.*; 
+  
+// By implementing Serializable interface 
+// we make sure that state of instances of class A 
+// can be saved in a file. 
+class A implements Serializable 
+{ 
+    int i; 
+    String s; 
+  
+    // A class constructor 
+    public A(int i,String s) 
+    { 
+        this.i = i; 
+        this.s = s; 
+    } 
+} 
+  
+public class Test 
+{ 
+    public static void main(String[] args) 
+      throws IOException, ClassNotFoundException 
+    { 
+        A a = new A(20,"GeeksForGeeks"); 
+  
+        // Serializing 'a' 
+        FileOutputStream fos = new FileOutputStream("xyz.txt"); 
+        ObjectOutputStream oos = new ObjectOutputStream(fos); 
+        oos.writeObject(a); 
+  
+        // De-serializing 'a' 
+        FileInputStream fis = new FileInputStream("xyz.txt"); 
+        ObjectInputStream ois = new ObjectInputStream(fis); 
+        A b = (A)ois.readObject();//down-casting object 
+  
+        System.out.println(b.i+" "+b.s); 
+  
+        // closing streams 
+        oos.close(); 
+        ois.close(); 
+    } 
+} 
+Output:
+
+20 GeeksForGeeks
+
+Remote interface : Remote interface is present in java.rmi package. A remote object is an object which is stored at one machine and accessed from another machine. So, to make an object a remote object, we need to flag it with Remote interface. Here, Remote interface serves to identify interfaces whose methods may be invoked from a non-local virtual machine.Any object that is a remote object must directly or indirectly implement this interface. RMI (Remote Method Invocation) provides some convenience classes that remote object implementations can extend which facilitate remote object creation.
+
+
+
+7. Is Externalizable a marker interface? Difference between Serializable and Externalizable.
+
+Externalizable is not marker interface, you have to override writeExternal and readExternal method.
+
+SERIALIZABLE	    
+Serializable is a marker interface i.e. does not contain any method.
+Serializable interface pass the responsibility of serialization to JVM and it’s default algorithm.
+Default serialization does not call any class constructor.
+
+EXTERNALIZABLE   
+Externalizable interface contains two methods writeExternal() and readExternal() which implementing classes MUST override.                                              Externalizable provides control of serialization logic to programmer – to write custom logic.
+A public no-arg constructor is required while using Externalizable interface.                                            
+
+8. What is the difference between checked and unchecked exception? Give examples for each
+from the JDK.
+9. Give examples for custom exceptions which are checked and unchecked exception.
+10. What is the difference between Exception and Error? Give examples of Errors.
+11. What is the difference between ClassNotFoundException and NoClassDefFoundError?
+12. Explain how class loader works in Java. Can one class be loaded by two class loaders in
+Java.
+13. Explain the difference between Comparable and Comparator.
+14. Compare String, StringBuffer and StringBuilder.
+15. Explain the concept of constructor chaining.
+16. What is serialVersionUID?
+17. What is the difference between Iterator and ListIterator?
+18. What is the difference between fail-fast and fail-safe iterator? Explain
+ConcurrentModificationException with an example.
+19. What is reflection? Where is it used?
+20. What are the rules for overriding methods in Java?
+21. How to implement a Singleton in Java?
