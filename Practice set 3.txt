@@ -360,16 +360,85 @@ class TestCustomException1{
 
 10. What is the difference between Exception and Error? Give examples of Errors.
 
+Error : An Error “indicates serious problems that a reasonable application should not try to catch.”
+Both Errors and Exceptions are the subclasses of java.lang.Throwable class.
+Errors are the conditions which cannot get recovered by any handling techniques. 
+It surely cause termination of the program abnormally. 
+Errors belong to unchecked type and mostly occur at runtime. 
+Some of the examples of errors are Out of memory error or a System crash error.
+
+Exceptions : An Exception “indicates conditions that a reasonable application might want to catch.”
+Exceptions are the conditions that occur at runtime and may cause the termination of program. 
+But they are recoverable using try, catch and throw keywords.
+Exceptions are divided into two catagories : checked and unchecked exceptions. Checked exceptions like IOException known to the compiler at compile time while unchecked exceptions like ArrayIndexOutOfBoundException known to the compiler at runtime. It is mostly caused by the program written by the programmer.
+
 11. What is the difference between ClassNotFoundException and NoClassDefFoundError?
+
+ClassNotFoundException occurs when you try to load a class at runtime using Class.forName() or loadClass() methods and requested classes are not found in classpath. Most of the time this exception will occur when you try to run application without updating classpath with JAR files. This exception is a checked Exception derived from java.lang.Exception class
+
+NoClassDefFoundError occurs when class was present during compile time and program was compiled and linked successfully but class was not present during runtime. It is error which is derived from LinkageError
+
 12. Explain how class loader works in Java. Can one class be loaded by two class loaders in
 Java.
+
+The Java ClassLoader is a part of the Java Runtime Environment that dynamically loads Java classes into the Java Virtual Machine. The Java run time system does not need to know about files and file systems because of classloaders.
+
+Java classes aren’t loaded into memory all at once, but when required by an application. At this point, the Java ClassLoader is called by the JRE and these ClassLoaders load classes into memory dynamically.
+
 13. Explain the difference between Comparable and Comparator.
+
+A comparable object is capable of comparing itself with another object. The class itself must implements the java.lang.Comparable interface to compare its instances.
+
+Comparator is external to the element type we are comparing. It’s a separate class. We create multiple separate classes (that implement Comparator) to compare by different members.
+
+Collections class has a second sort() method and it takes Comparator. The sort() method invokes the compare() to sort objects
 14. Compare String, StringBuffer and StringBuilder.
+
+
 15. Explain the concept of constructor chaining.
+
+Constructor chaining occurs through inheritance. A sub class constructor’s task is to call super class’s constructor first. This ensures that creation of sub class’s object starts with the initialization of the data members of the super class. There could be any numbers of classes in inheritance chain. Every constructor calls up the chain till class at the top is reached.
+
 16. What is serialVersionUID?
+
+SerialVersionUID is used to ensure that during deserialization the same class (that was used during serialize process) is loaded.
+
+
 17. What is the difference between Iterator and ListIterator?
+
+Iterators are used in Collection framework in Java to retrieve elements one by one. It can be applied to any Collection object. By using Iterator, we can perform both read and remove operations. Iterator must be used whenever we want to enumerate elements in all Collection framework implemented interfaces like Set, List, Queue, Deque and also in all implemented classes of Map interface. Iterator is the only cursor available for entire collection framewor
+
+It is only applicable for List collection implemented classes like arraylist, linkedlist etc. It provides bi-directional iteration. ListIterator must be used when we want to enumerate elements of List. This cursor has more functionality(methods) than iterator.
 18. What is the difference between fail-fast and fail-safe iterator? Explain
-ConcurrentModificationException with an example.
+
+Fail-safe iterators means they will not throw any exception even if the collection is modified while iterating over it. Whereas Fail-fast iterators throw an exception(ConcurrentModificationException) if the collection is modified while iterating over it.
+
 19. What is reflection? Where is it used?
+
+Reflection is an API which is used to examine or modify the behavior of methods, classes, interfaces at runtime.
+
+The required classes for reflection are provided under java.lang.reflect package.
+Reflection gives us information about the class to which an object belongs and also the methods of that class which can be executed by using the object.
+Through reflection we can invoke methods at runtime irrespective of the access specifier used with them.
 20. What are the rules for overriding methods in Java?
+
+The argument list should be exactly the same as that of the overridden method.
+The return type should be the same or a subtype of the return type declared in the original overridden method in the superclass.
+The access level cannot be more restrictive than the overridden method's access level. For example: If the superclass method is declared public then the overriding method in the subclass cannot be either private or protected.
+Instance methods can be overridden only if they are inherited by the subclass.
+A method declared final cannot be overridden.
+A method declared static cannot be overridden but can be re-declared.
+If a method cannot be inherited, then it cannot be overridden.
+A subclass within the same package as the instance's superclass can override any superclass method that is not declared private or final.
+A subclass in a different package can only override the non-final methods declared public or protected.
+An overriding method can throw any uncheck exceptions, regardless of whether the overridden method throws exceptions or not. However, the overriding method should not throw checked exceptions that are new or broader than the ones declared by the overridden method. The overriding method can throw narrower or fewer exceptions than the overridden method.
+Constructors cannot be overridden.
 21. How to implement a Singleton in Java?
+
+In object-oriented programming, a singleton class is a class that can have only one object (an instance of the class) at a time.
+After first time, if we try to instantiate the Singleton class, the new variable also points to the first instance created. So whatever modifications we do to any variable inside the class through any instance, it affects the variable of the single instance created and is visible if we access that variable through any variable of that class type defined.
+To design a singleton class:
+
+Make constructor as private.
+Write a static method that has return type object of this singleton class. Here, the concept of Lazy initialization is used to write this static method.
+Normal class vs Singleton class: Difference in normal and singleton class in 
